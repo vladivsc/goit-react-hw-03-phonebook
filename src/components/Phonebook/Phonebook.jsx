@@ -5,15 +5,29 @@ import ContactList from './ContactList/ContactList';
 import Filter from './Filter/Filter';
 import ContactForm from './ContactForm/ContactForm';
 
-import contacts from './contacts';
-
 import styles from '../Phonebook/phonebook.module.scss';
 
 class Phonebook extends Component {
   state = {
-    contacts: [...contacts],
+    contacts: [],
     filter: '',
   };
+
+  componentDidMount() {
+    const contacts = JSON.parse(localStorage.getItem('my-contacts'));
+    
+    if(contacts && contacts.length){
+      this.setState({contacts});
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const {contacts} = this.state;
+
+    if(prevState.contacts.length !== contacts.length){
+      localStorage.setItem('my-contacts', JSON.stringify(contacts));
+    }
+  }
   
   addContact = ({name, number}) => {
     this.setState(prevState => {
