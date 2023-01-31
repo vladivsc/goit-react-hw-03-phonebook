@@ -16,7 +16,7 @@ class Phonebook extends Component {
   componentDidMount() {
     const contacts = JSON.parse(localStorage.getItem('my-contacts'));
     
-    if(contacts && contacts.length){
+    if(contacts){
       this.setState({contacts});
     }
   }
@@ -24,7 +24,7 @@ class Phonebook extends Component {
   componentDidUpdate(prevProps, prevState) {
     const {contacts} = this.state;
 
-    if(prevState.contacts.length !== contacts.length){
+    if(prevState.contacts !== contacts){
       localStorage.setItem('my-contacts', JSON.stringify(contacts));
     }
   }
